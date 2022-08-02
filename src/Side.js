@@ -6,6 +6,7 @@ const Side = ({
     setActiveNote,
 }) => {
 
+    
     return (
         <div className="side">
             <div className="side-top">
@@ -13,16 +14,24 @@ const Side = ({
             <button onClick={addNotes}>Add Note</button>
             </div>
             <div className="side-notes-list">
-                {notes.map(({id, title, body}, i) => (
+                {notes.map((note) => ( 
                     <div 
-                    className={`side-notes-list ${id === activeNote && "active"}`}
-                    onClick={() => setActiveNote(id)}>
+                    //points the selected note as an active note
+                    className={`side-note-list ${note.id === activeNote && "active"}`}
+                    onClick={() => setActiveNote(note.id)}>
                     <div className="side-title">
-                    <h3>{title}</h3>
-                    <button onClick={(event) => deleteNotes(id)}> Delete </button>
+                    <strong>{note.title}</strong>
+                    <button onClick={(event) => deleteNotes(note.id)}> Delete </button>
                     </div>
-                    <p>{body && body.substr(0,50) + "..."} </p>
-                    </div>
+                    <p>{note.body && note.body.substr(0,50) + "..." /*displays body preview on the side */ } </p>
+                    <small className="description">
+                        Date{" "}
+                        {new Date(note.lastModified).toLocaleDateString("en-GB", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                         })}
+                    </small>
+                </div>
                 ))}
             </div>
         </div>

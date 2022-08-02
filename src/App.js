@@ -1,5 +1,6 @@
 import './App.css';
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect } from "react";
+import { nanoid } from 'nanoid';
 import Side from './Side';
 import Main from './Main';
 
@@ -7,38 +8,46 @@ function App() {
   const [notes, setNotes] = useState (
     localStorage.notes ? JSON.parse(localStorage.notes) : []
   );
-  const [newNote, setNewNote] = useState ("");
+ 
   const [activeNote, setActiveNote] = useState(false);
 
+  //store changes 
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
+  
   const addNotes = () => {
     const note = {
-      id: notes.length === 0 ? 1 : notes[notes.length - 1].id + 1,
+      id: nanoid(),
       title: "Insert Note Title",
       body: "",
+      //tells the date when a note was last edited
+      lastModified: Date.now(),
     };
+
     setNotes([note, ...notes]);
     setActiveNote(note.id);
 
-  }
-
+  } 
+  //current note
   const getActiveNote = () => {
-    return notes.find(({ id }) => id === activeNote);
+    return notes.find((note) => note.id === activeNote);
+  };
+
+  const deleteNotes = (noteId) => {
+    setNotes(notes.filter(({ id }) => id !== noteId));
   }
 
-
-  const deleteNotes = (id) => {
-    setNotes(notes.filter((note) => note.id != id));
-  }
-
-  const updateNote = (updatedNote) => {
-    const updatedNotes = notes.map((note) => {
-      if (note.id === updatedNote.id) {
-        return updatedNote;
+  const editNote = (editedNote) => {
+    const editedNotes = notes.map((note) => {
+      if (note.id === activeNote) {
+        return editedNote;
       }
       return note;
-    })
-    setNotes(updatedNotes);
-  }
+    });
+    setNotes(editedNotes);
+  };
 
   return (
     <div className="App">
@@ -50,7 +59,8 @@ function App() {
         setActiveNote={setActiveNote}
         />
         <Main 
-        updateNote={updateNote} activeNote={getActiveNote()}/>
+        activeNote={getActiveNote()} 
+        editNote={editNote} />
     </div>
   );
 }
