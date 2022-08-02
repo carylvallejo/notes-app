@@ -13,11 +13,12 @@ const Side = ({
             <button onClick={addNotes}>Add Note</button>
             </div>
             <div className="side-notes-list">
-                {notes.map(({id, title, body}) => (
+                {notes.map(({id, title, body}, i) => (
                     <div 
                     className={`side-notes-list ${id === activeNote && "active"}`}
                     onClick={() => setActiveNote(id)}>
                     <div className="side-title">
+                    <h3>{title}</h3>
                     <button onClick={(event) => deleteNotes(id)}> Delete </button>
                     </div>
                     <p>{body && body.substr(0,50) + "..."} </p>
