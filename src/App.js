@@ -16,13 +16,12 @@ function App() {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  
+  //add new note
   const addNotes = () => {
     const note = {
       id: nanoid(),
       title: "Insert Note Title",
       body: "",
-      //tells the date when a note was last edited
       lastModified: Date.now(),
     };
 
@@ -35,10 +34,11 @@ function App() {
     return notes.find((note) => note.id === activeNote);
   };
 
+  //delete note
   const deleteNotes = (noteId) => {
     setNotes(notes.filter(({ id }) => id !== noteId));
   }
-
+  //modify note
   const editNote = (editedNote) => {
     const editedNotes = notes.map((note) => {
       if (note.id === activeNote) {

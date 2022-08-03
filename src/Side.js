@@ -16,7 +16,7 @@ const Side = ({
             <div className="side-notes-list">
                 {notes.map((note) => ( 
                     <div 
-                    //points the selected note as an active note
+                    //points a note as an active note
                     className={`side-note-list ${note.id === activeNote && "active"}`}
                     onClick={() => setActiveNote(note.id)}>
                     <div className="side-title">

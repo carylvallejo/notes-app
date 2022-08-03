@@ -6,7 +6,7 @@ const Main  = ({activeNote, editNote}) => {
         lastModified: Date.now(),
     })
     }
-
+    //if there are no notes created, main pannel will show a message
     if (!activeNote) return <div className="no-active-note">Please select a note</div>;
     return (
         <div className="main">
